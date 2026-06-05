@@ -4,26 +4,28 @@ package common
 
 import (
 	"errors"
-	"strings"
 	"sync"
 	"time"
+
+	tcerr "github.com/tencentcloud/tencentcloud-sdk-go-intl-en/tencentcloud/common/errors"
 )
 
 const (
-	defaultBackupEndpoint    = "ap-guangzhou.tencentcloudapi.com"
-	defaultMaxFailNum        = 5
-	defaultMaxFailPercentage = 75
-	defaultWindowLength      = 1 * 60 * time.Second
-	defaultTimeout           = 60 * time.Second
+	defaultMaxFailNum          = 5
+	defaultMaxFailPercentage   = 75
+	defaultWindowLength        = 1 * 60 * time.Second
+	defaultTimeout             = 60 * time.Second
+	defaultHalfOpenMaxRequests = 1
 )
+
+const ignoredGeneration = ^uint64(0)
 
 var (
 	// ErrOpenState is returned when the CB state is open
 	errOpenState = errors.New("circuit breaker is open")
 )
 
-// counter use atomic operations to ensure consistency
-// Atomic operations perform better than mutex
+// counter is protected by circuitBreaker.mu.
 type counter struct {
 	failures             int
 	all                  int
@@ -50,13 +52,14 @@ func (c *counter) onFailure() {
 	c.all++
 	c.failures++
 	c.consecutiveSuccesses = 0
-	c.consecutiveSuccesses = 0
+	c.consecutiveFailures++
 }
 
 func (c *counter) clear() {
 	c.all = 0
 	c.failures = 0
 	c.consecutiveSuccesses = 0
+	c.consecutiveFailures = 0
 }
 
 // State is a type that represents a state of CircuitBreaker.
@@ -70,9 +73,6 @@ const (
 )
 
 type breakerSetting struct {
-	// backupEndpoint
-	// the default is "ap-guangzhou.tencentcloudapi.com"
-	backupEndpoint string
 	// max fail nums
 	// the default is 5
 	maxFailNum int
@@ -80,13 +80,13 @@ type breakerSetting struct {
 	// the default is 75/100
 	maxFailPercentage int
 	// windowInterval decides when to reset counter if the state is StateClosed
-	// the default is 5minutes
+	// the default is 60s
 	windowInterval time.Duration
 	// timeout decides when to turn StateOpen to StateHalfOpen
 	// the default is 60s
 	timeout time.Duration
-	// maxRequests decides when to turn StateHalfOpen to StateClosed
-	maxRequests int
+	// halfOpenMaxRequests limits probe requests allowed in StateHalfOpen.
+	halfOpenMaxRequests int
 }
 
 type circuitBreaker struct {
@@ -105,28 +105,23 @@ type circuitBreaker struct {
 	generation uint64
 	// counter
 	counter counter
+	// halfOpenInFlight tracks probe requests admitted in StateHalfOpen.
+	halfOpenInFlight int
 }
 
-func newRegionBreaker(set breakerSetting) (re *circuitBreaker) {
+func newCircuitBreaker(set breakerSetting) (re *circuitBreaker) {
+	if set.halfOpenMaxRequests <= 0 {
+		set.halfOpenMaxRequests = defaultHalfOpenMaxRequests
+	}
 	re = new(circuitBreaker)
 	re.breakerSetting = set
 	return
 }
 
-func defaultRegionBreaker() *circuitBreaker {
-	defaultSet := breakerSetting{
-		backupEndpoint:    defaultBackupEndpoint,
-		maxFailNum:        defaultMaxFailNum,
-		maxFailPercentage: defaultMaxFailPercentage,
-		windowInterval:    defaultWindowLength,
-		timeout:           defaultTimeout,
-	}
-	return newRegionBreaker(defaultSet)
-}
-
 // currentState return the current state.
-//  if in StateClosed and now is over expiry time, it will turn to a new generation.
-//  if in StateOpen and now is over expiry time, it will turn to StateHalfOpen
+//
+//	if in StateClosed and now is over expiry time, it will turn to a new generation.
+//	if in StateOpen and now is over expiry time, it will turn to StateHalfOpen
 func (s *circuitBreaker) currentState(now time.Time) (state, uint64) {
 	switch s.state {
 	case StateClosed:
@@ -156,6 +151,7 @@ func (s *circuitBreaker) setState(newState state, now time.Time) {
 func (s *circuitBreaker) toNewGeneration(now time.Time) {
 	s.generation++
 	s.counter.clear()
+	s.halfOpenInFlight = 0
 	var zero time.Time
 	switch s.state {
 	case StateClosed:
@@ -175,8 +171,14 @@ func (s *circuitBreaker) beforeRequest() (uint64, error) {
 	now := time.Now()
 	state, generation := s.currentState(now)
 	//log.Println(s.counter)
-	if state == StateOpen {
-		return generation, errOpenState
+	switch state {
+	case StateOpen:
+		return ignoredGeneration, errOpenState
+	case StateHalfOpen:
+		if s.counter.all+s.halfOpenInFlight >= s.halfOpenMaxRequests {
+			return ignoredGeneration, errOpenState
+		}
+		s.halfOpenInFlight++
 	}
 	return generation, nil
 }
@@ -190,6 +192,9 @@ func (s *circuitBreaker) afterRequest(before uint64, success bool) {
 	// the breaker has entered the next generation, the current results abandon.
 	if generation != before {
 		return
+	}
+	if state == StateHalfOpen && s.halfOpenInFlight > 0 {
+		s.halfOpenInFlight--
 	}
 	if success {
 		s.onSuccess(state, now)
@@ -205,7 +210,7 @@ func (s *circuitBreaker) onSuccess(state state, now time.Time) {
 	case StateHalfOpen:
 		s.counter.onSuccess()
 		// The conditions for closing breaker are met
-		if s.counter.all-s.counter.failures >= s.maxRequests {
+		if s.counter.all-s.counter.failures >= s.halfOpenMaxRequests {
 			s.setState(StateClosed, now)
 		}
 	}
@@ -229,31 +234,30 @@ func (s *circuitBreaker) onFailure(state state, now time.Time) {
 	}
 }
 
-// checkEndpoint
-// valid: cvm.ap-shanghai.tencentcloudapi.com, cvm.ap-shenzhen-fs.tencentcloudapi.com，cvm.tencentcloudapi.com
-// invalid: cvm.tencentcloud.com
-func checkEndpoint(endpoint string) bool {
-	ss := strings.Split(endpoint, ".")
-	if len(ss) != 4 && len(ss) != 3 {
+// isBreakerSuccess decides whether a sendWithSignature result counts as a
+// success for the regional circuit breaker.
+//
+// The breaker tracks region health, not per-call business outcome. So:
+//   - nil err: the request round-tripped and parsed cleanly → region healthy.
+//   - *TencentCloudSDKError with a RequestId: the region answered with a
+//     structured error (e.g. AuthFailure). The user's call failed but the
+//     region is up → success for breaker accounting. The single exception is
+//     "InternalError", which the API uses to signal a region-side fault.
+//   - Anything else (transport errors, locally-fabricated errors with no
+//     RequestId): the region did not answer → failure.
+func isBreakerSuccess(err error) bool {
+	if err == nil {
+		return true
+	}
+	e, ok := err.(*tcerr.TencentCloudSDKError)
+	if !ok {
 		return false
 	}
-	if ss[len(ss)-2] != "tencentcloudapi" {
+	if e.GetRequestId() == "" {
 		return false
 	}
-	// ap-beijing
-	if len(ss) == 4 && len(strings.Split(ss[1], "-")) < 2 {
+	if e.GetCode() == "InternalError" {
 		return false
 	}
 	return true
-}
-
-func renewUrl(oldDomain, region string) string {
-	ss := strings.Split(oldDomain, ".")
-	if len(ss) == 3 {
-		ss = append([]string{ss[0], region}, ss[1:]...)
-	} else if len(ss) == 4 {
-		ss[1] = region
-	}
-	newDomain := strings.Join(ss, ".")
-	return newDomain
 }

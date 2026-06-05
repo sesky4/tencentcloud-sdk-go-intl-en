@@ -36,9 +36,10 @@ type ClientProfile struct {
 	// Debug enables or disables debug output for client operations.
 	Debug bool
 
-	// DisableRegionBreaker determines whether to enable the Regional auto switch.
-	// The SDK uses ap-guangzhou.tencentcloudapi.com as the default backup endpoint.
-	// You can override this by specifying the BackupEndpoint.
+	// DisableRegionBreaker determines whether to disable the domain failover
+	// pipeline (per-host circuit breakers + TLD rotation / backupEndpoint).
+	// Default: false (failover enabled). The default flipped from true to
+	// false; see HttpProfile.DomainFailover for the per-pipeline switch.
 	DisableRegionBreaker bool
 
 	// BackupEndPoint specifies an alternative endpoint to use by region breaker.
@@ -67,10 +68,12 @@ func NewClientProfile() *ClientProfile {
 		HttpProfile:     NewHttpProfile(),
 		SignMethod:      "TC3-HMAC-SHA256",
 		UnsignedPayload: false,
-		Language:        "en-US",
+		Language:        "zh-CN",
 		Debug:           false,
-		// now is true, will become to false in future
-		DisableRegionBreaker: true,
+		// Failover is now enabled by default. The default flipped from true
+		// to false; opt out by setting DisableRegionBreaker = true or by
+		// setting HttpProfile.DomainFailover = false.
+		DisableRegionBreaker: false,
 		BackupEndPoint:       "",
 		BackupEndpoint:       "",
 	}

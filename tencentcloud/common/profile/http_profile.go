@@ -34,6 +34,16 @@ type HttpProfile struct {
 	// If set, all requests will be routed through this proxy.
 	// Default: "".
 	Proxy string
+
+	// DomainFailover enables transparent retries against backup TLDs when the
+	// primary domain fails for transport-level reasons (DNS miss, TLS handshake,
+	// connection refused, timeout, non-2xx HTTP status, malformed JSON body).
+	// When the request host belongs to the tencentcloudapi.{com,cn,com.cn}
+	// family, the SDK will rotate within that family. Region-pinned hosts
+	// (containing an ap-/na-/eu-/sa-/af-/me- label) opt out of TLD rotation
+	// to avoid silently changing the resolved region.
+	// Default: true.
+	DomainFailover bool
 }
 
 // NewHttpProfile creates and initializes a new HttpProfile with default values.
@@ -41,11 +51,12 @@ type HttpProfile struct {
 // with sensible defaults, which can then be customized as needed.
 func NewHttpProfile() *HttpProfile {
 	return &HttpProfile{
-		ReqMethod:     "POST",
-		ReqTimeout:    60,
-		Scheme:        "HTTPS",
-		RootDomain:    "",
-		Endpoint:      "",
-		ApigwEndpoint: "",
+		ReqMethod:      "POST",
+		ReqTimeout:     60,
+		Scheme:         "HTTPS",
+		RootDomain:     "",
+		Endpoint:       "",
+		ApigwEndpoint:  "",
+		DomainFailover: true,
 	}
 }
