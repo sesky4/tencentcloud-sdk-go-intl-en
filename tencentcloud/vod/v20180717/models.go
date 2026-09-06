@@ -4126,6 +4126,210 @@ func (r *CloneCDNDomainResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 
+// Predefined struct for user
+type CloneVoiceAsyncRequestParams struct {
+	// <p>VOD application ID. For customers who activate on-demand services on or after December 25, 2023, this field must be filled in with the app ID to access resources in VOD applications, whether in the default or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Base64-encoded audio for cloning.</p>
+	AudioData *string `json:"AudioData,omitnil,omitempty" name:"AudioData"`
+
+	// <p>Cloning audio URL. Valid when AudioData is empty.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
+
+	// <p>Clone file FileID. Valid when AudioData and AudioUrl are empty</p>
+	AudioFileId *string `json:"AudioFileId,omitnil,omitempty" name:"AudioFileId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Timbre clone expansion parameters. Supported fields of <code>ExtParam</code>: </p><ul><li><code>text</code> (string): Text for audition synthesis, up to 1000 characters; do not return the audition audio when empty or not passed.</li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+
+	// <p>Identifies the source context. This is used to pass user request information. The value of this field will be returned in callbacks and task flow status change callbacks. The maximum length is 1000 characters.</p>
+	SessionContext *string `json:"SessionContext,omitnil,omitempty" name:"SessionContext"`
+
+	// <p>Identification Code for Task Deduplication. If a request with the same identification code has been sent within the past 3 days, an error will be returned for the current request. The maximum length is 50 characters. If this is not specified or left empty, it indicates no deduplication.</p>
+	SessionId *string `json:"SessionId,omitnil,omitempty" name:"SessionId"`
+}
+
+type CloneVoiceAsyncRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>VOD application ID. For customers who activate on-demand services on or after December 25, 2023, this field must be filled in with the app ID to access resources in VOD applications, whether in the default or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Base64-encoded audio for cloning.</p>
+	AudioData *string `json:"AudioData,omitnil,omitempty" name:"AudioData"`
+
+	// <p>Cloning audio URL. Valid when AudioData is empty.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
+
+	// <p>Clone file FileID. Valid when AudioData and AudioUrl are empty</p>
+	AudioFileId *string `json:"AudioFileId,omitnil,omitempty" name:"AudioFileId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Timbre clone expansion parameters. Supported fields of <code>ExtParam</code>: </p><ul><li><code>text</code> (string): Text for audition synthesis, up to 1000 characters; do not return the audition audio when empty or not passed.</li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+
+	// <p>Identifies the source context. This is used to pass user request information. The value of this field will be returned in callbacks and task flow status change callbacks. The maximum length is 1000 characters.</p>
+	SessionContext *string `json:"SessionContext,omitnil,omitempty" name:"SessionContext"`
+
+	// <p>Identification Code for Task Deduplication. If a request with the same identification code has been sent within the past 3 days, an error will be returned for the current request. The maximum length is 50 characters. If this is not specified or left empty, it indicates no deduplication.</p>
+	SessionId *string `json:"SessionId,omitnil,omitempty" name:"SessionId"`
+}
+
+func (r *CloneVoiceAsyncRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *CloneVoiceAsyncRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "SubAppId")
+	delete(f, "AudioData")
+	delete(f, "AudioUrl")
+	delete(f, "AudioFileId")
+	delete(f, "LanguageBoost")
+	delete(f, "ExtParam")
+	delete(f, "SessionContext")
+	delete(f, "SessionId")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "CloneVoiceAsyncRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type CloneVoiceAsyncResponseParams struct {
+	// <p>Task ID. Use this ID to query the result.</p>
+	TaskId *string `json:"TaskId,omitnil,omitempty" name:"TaskId"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type CloneVoiceAsyncResponse struct {
+	*tchttp.BaseResponse
+	Response *CloneVoiceAsyncResponseParams `json:"Response"`
+}
+
+func (r *CloneVoiceAsyncResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *CloneVoiceAsyncResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type CloneVoiceSyncRequestParams struct {
+	// <p>VOD application ID. Customers who activate on-demand services after December 25, 2023 must fill in this field with the app ID when accessing resources in VOD applications (whether the default application or a newly created application).</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Base64-encoded audio for cloning.</p>
+	AudioData *string `json:"AudioData,omitnil,omitempty" name:"AudioData"`
+
+	// <p>Cloning audio URL. Valid when AudioData is empty.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
+
+	// <p>File ID for cloning. Valid when AudioData and AudioUrl are empty</p>
+	AudioFileId *string `json:"AudioFileId,omitnil,omitempty" name:"AudioFileId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Expansion parameters for synchronous timbre clone. Supported fields of <code>ExtParam</code>:</p><ul>  <li><code>text</code> (string): Audition synthesis text, up to <code>1000</code> characters. If not empty, <code>tts_model</code> must be passed simultaneously. Returns the audition audio <code>DemoAudio</code> upon successful clone.</li>  <li><code>model</code> (string): Clone model. Default: <code>minimax-voice-clone</code>.</li>  <li><code>tts_model</code> (string): Model used to synthesize the audition audio. Options: <code>minimax-speech-2.8-hd</code>, <code>minimax-speech-2.8-turbo</code>, <code>minimax-speech-2.6-hd</code>, <code>minimax-speech-2.6-turbo</code>, <code>minimax-speech-02-hd</code>, <code>minimax-speech-02-turbo</code>. Required when <code>text</code> is not empty.</li>  <li><code>text_lang</code> (string): Audition text language.</li>  <li><code>voice_profile</code> (object): Timbre profile. Optional fields:    <ul>      <li><code>name</code> (string): Timbre name.</li>      <li><code>description</code> (string): Timbre description.</li>      <li><code>gender</code> (string): Gender. Options: <code>male</code> / <code>female</code> / <code>unknown</code>.</li>      <li><code>age</code> (string): Age segment. Options: <code>child</code> / <code>teenager</code> / <code>youth</code> / <code>middle_aged</code> / <code>senior</code> / <code>unknown</code>.</li>      <li><code>languages</code> (string[]): Supported languages, for example <code>["zh", "en"]</code>.</li>      <li><code>labels</code> (string[]): Timbre tags, for example <code>["magnetic"]</code>.</li>      <li><code>scenes</code> (string[]): Application scenarios, for example <code>["commentary"]</code>.</li>    </ul>  </li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+type CloneVoiceSyncRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>VOD application ID. Customers who activate on-demand services after December 25, 2023 must fill in this field with the app ID when accessing resources in VOD applications (whether the default application or a newly created application).</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Base64-encoded audio for cloning.</p>
+	AudioData *string `json:"AudioData,omitnil,omitempty" name:"AudioData"`
+
+	// <p>Cloning audio URL. Valid when AudioData is empty.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
+
+	// <p>File ID for cloning. Valid when AudioData and AudioUrl are empty</p>
+	AudioFileId *string `json:"AudioFileId,omitnil,omitempty" name:"AudioFileId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Expansion parameters for synchronous timbre clone. Supported fields of <code>ExtParam</code>:</p><ul>  <li><code>text</code> (string): Audition synthesis text, up to <code>1000</code> characters. If not empty, <code>tts_model</code> must be passed simultaneously. Returns the audition audio <code>DemoAudio</code> upon successful clone.</li>  <li><code>model</code> (string): Clone model. Default: <code>minimax-voice-clone</code>.</li>  <li><code>tts_model</code> (string): Model used to synthesize the audition audio. Options: <code>minimax-speech-2.8-hd</code>, <code>minimax-speech-2.8-turbo</code>, <code>minimax-speech-2.6-hd</code>, <code>minimax-speech-2.6-turbo</code>, <code>minimax-speech-02-hd</code>, <code>minimax-speech-02-turbo</code>. Required when <code>text</code> is not empty.</li>  <li><code>text_lang</code> (string): Audition text language.</li>  <li><code>voice_profile</code> (object): Timbre profile. Optional fields:    <ul>      <li><code>name</code> (string): Timbre name.</li>      <li><code>description</code> (string): Timbre description.</li>      <li><code>gender</code> (string): Gender. Options: <code>male</code> / <code>female</code> / <code>unknown</code>.</li>      <li><code>age</code> (string): Age segment. Options: <code>child</code> / <code>teenager</code> / <code>youth</code> / <code>middle_aged</code> / <code>senior</code> / <code>unknown</code>.</li>      <li><code>languages</code> (string[]): Supported languages, for example <code>["zh", "en"]</code>.</li>      <li><code>labels</code> (string[]): Timbre tags, for example <code>["magnetic"]</code>.</li>      <li><code>scenes</code> (string[]): Application scenarios, for example <code>["commentary"]</code>.</li>    </ul>  </li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+func (r *CloneVoiceSyncRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *CloneVoiceSyncRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "SubAppId")
+	delete(f, "AudioData")
+	delete(f, "AudioUrl")
+	delete(f, "AudioFileId")
+	delete(f, "LanguageBoost")
+	delete(f, "ExtParam")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "CloneVoiceSyncRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type CloneVoiceSyncResponseParams struct {
+	// <p>Cloned timbre</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>Audition audio.</p>
+	DemoAudio *string `json:"DemoAudio,omitnil,omitempty" name:"DemoAudio"`
+
+	// <p>Extended information.</p>
+	ExtInfo *string `json:"ExtInfo,omitnil,omitempty" name:"ExtInfo"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type CloneVoiceSyncResponse struct {
+	*tchttp.BaseResponse
+	Response *CloneVoiceSyncResponseParams `json:"Response"`
+}
+
+func (r *CloneVoiceSyncResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *CloneVoiceSyncResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
 type ColorEnhanceInfo struct {
 	// Whether to enable color enhancement. Valid values:
 	// <li>`ON`</li>
@@ -12266,6 +12470,67 @@ func (r *DeleteVodDomainResponse) FromJsonString(s string) error {
 }
 
 // Predefined struct for user
+type DeleteVoiceRequestParams struct {
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>VOD application ID. From December 25, 2023, customers who activate on-demand services must fill in this field with the app ID when accessing resources in on-demand applications, whether the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+}
+
+type DeleteVoiceRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>VOD application ID. From December 25, 2023, customers who activate on-demand services must fill in this field with the app ID when accessing resources in on-demand applications, whether the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+}
+
+func (r *DeleteVoiceRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DeleteVoiceRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "VoiceId")
+	delete(f, "SubAppId")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "DeleteVoiceRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type DeleteVoiceResponseParams struct {
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type DeleteVoiceResponse struct {
+	*tchttp.BaseResponse
+	Response *DeleteVoiceResponseParams `json:"Response"`
+}
+
+func (r *DeleteVoiceResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DeleteVoiceResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
 type DeleteWatermarkTemplateRequestParams struct {
 	// Unique identifier of the watermark template.
 	Definition *int64 `json:"Definition,omitnil,omitempty" name:"Definition"`
@@ -17733,6 +17998,138 @@ func (r *DescribeVodDomainsResponse) FromJsonString(s string) error {
 }
 
 // Predefined struct for user
+type DescribeVoicesRequestParams struct {
+	// <p>VOD application ID. Starting from December 25, 2023, customers who activate on-demand services must set this field to the app ID when accessing resources in VOD applications (whether the default application or a newly created application).</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>Voice type.</p><p>Enumeration values:</p><ul><li>system: system audio.</li><li>clone: cloned audio.</li><li>design: designed audio.</li><li>all: All voices (default).</li></ul>
+	VoiceType *string `json:"VoiceType,omitnil,omitempty" name:"VoiceType"`
+
+	// <p>Voice name.</p>
+	VoiceName *string `json:"VoiceName,omitnil,omitempty" name:"VoiceName"`
+
+	// <p>Voice description.</p>
+	Description *string `json:"Description,omitnil,omitempty" name:"Description"`
+
+	// <p>Gender.</p><p>Enumeration values:</p><ul><li>male: male</li><li>female: female</li><li>unknown: unknown</li></ul>
+	Gender *string `json:"Gender,omitnil,omitempty" name:"Gender"`
+
+	// <p>Age.</p><p>Enumeration values:</p><ul><li>child: child</li><li>teenager: teenager</li><li>youth: youth</li><li>middle_aged: middle-aged</li><li>senior: senior</li><li>unknown: unknown</li></ul>
+	Age *string `json:"Age,omitnil,omitempty" name:"Age"`
+
+	// <p>Language.</p>
+	Languages []*string `json:"Languages,omitnil,omitempty" name:"Languages"`
+
+	// <p>Tag.</p>
+	Labels []*string `json:"Labels,omitnil,omitempty" name:"Labels"`
+
+	// <p>Scenario.</p>
+	Scenes []*string `json:"Scenes,omitnil,omitempty" name:"Scenes"`
+
+	// <p>Extended parameters in the format of a JSON string. </p><p>Other filter criteria:
+	// voiceName (String): Voice name, fuzzy matching. labels (Array of String): Tags. Matches voices that contain these tags.</p>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+type DescribeVoicesRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>VOD application ID. Starting from December 25, 2023, customers who activate on-demand services must set this field to the app ID when accessing resources in VOD applications (whether the default application or a newly created application).</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>Voice type.</p><p>Enumeration values:</p><ul><li>system: system audio.</li><li>clone: cloned audio.</li><li>design: designed audio.</li><li>all: All voices (default).</li></ul>
+	VoiceType *string `json:"VoiceType,omitnil,omitempty" name:"VoiceType"`
+
+	// <p>Voice name.</p>
+	VoiceName *string `json:"VoiceName,omitnil,omitempty" name:"VoiceName"`
+
+	// <p>Voice description.</p>
+	Description *string `json:"Description,omitnil,omitempty" name:"Description"`
+
+	// <p>Gender.</p><p>Enumeration values:</p><ul><li>male: male</li><li>female: female</li><li>unknown: unknown</li></ul>
+	Gender *string `json:"Gender,omitnil,omitempty" name:"Gender"`
+
+	// <p>Age.</p><p>Enumeration values:</p><ul><li>child: child</li><li>teenager: teenager</li><li>youth: youth</li><li>middle_aged: middle-aged</li><li>senior: senior</li><li>unknown: unknown</li></ul>
+	Age *string `json:"Age,omitnil,omitempty" name:"Age"`
+
+	// <p>Language.</p>
+	Languages []*string `json:"Languages,omitnil,omitempty" name:"Languages"`
+
+	// <p>Tag.</p>
+	Labels []*string `json:"Labels,omitnil,omitempty" name:"Labels"`
+
+	// <p>Scenario.</p>
+	Scenes []*string `json:"Scenes,omitnil,omitempty" name:"Scenes"`
+
+	// <p>Extended parameters in the format of a JSON string. </p><p>Other filter criteria:
+	// voiceName (String): Voice name, fuzzy matching. labels (Array of String): Tags. Matches voices that contain these tags.</p>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+func (r *DescribeVoicesRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DescribeVoicesRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "SubAppId")
+	delete(f, "VoiceId")
+	delete(f, "VoiceType")
+	delete(f, "VoiceName")
+	delete(f, "Description")
+	delete(f, "Gender")
+	delete(f, "Age")
+	delete(f, "Languages")
+	delete(f, "Labels")
+	delete(f, "Scenes")
+	delete(f, "ExtParam")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "DescribeVoicesRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type DescribeVoicesResponseParams struct {
+	// <p>Available timbre list.</p>
+	Voices []*VoiceInfo `json:"Voices,omitnil,omitempty" name:"Voices"`
+
+	// <p>Total number of available voices</p>
+	TotalCount *int64 `json:"TotalCount,omitnil,omitempty" name:"TotalCount"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type DescribeVoicesResponse struct {
+	*tchttp.BaseResponse
+	Response *DescribeVoicesResponseParams `json:"Response"`
+}
+
+func (r *DescribeVoicesResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DescribeVoicesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
 type DescribeWatermarkTemplatesRequestParams struct {
 	// <b>On-demand [application](https://www.tencentcloud.com/document/product/266/14574?from_cn_redirect=1) ID. Customers who activate on-demand services from December 25, 2023 must fill this field with the app ID when accessing resources in on-demand applications (whether default or newly created).</b>
 	SubAppId *uint64 `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
@@ -17938,6 +18335,105 @@ func (r *DescribeWordSamplesResponse) ToJsonString() string {
 // FromJsonString It is highly **NOT** recommended to use this function
 // because it has no param check, nor strict type check
 func (r *DescribeWordSamplesResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type DesignVoiceAsyncRequestParams struct {
+	// <p>Voice description.</p>
+	Prompt *string `json:"Prompt,omitnil,omitempty" name:"Prompt"`
+
+	// <p>VOD application ID. For customers who activated on-demand services after December 25, 2023, this field must be set to the app ID when accessing resources in VOD applications, whether it is the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Voice settings</p>
+	VoiceSettings *VoiceSettings `json:"VoiceSettings,omitnil,omitempty" name:"VoiceSettings"`
+
+	// <p>Audition synthesis text. Maximum 500 characters.</p>
+	PreviewText *string `json:"PreviewText,omitnil,omitempty" name:"PreviewText"`
+
+	// <p>Extended parameters in the format of a JSON string.</p>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+
+	// <p>Identifies the source context. This is used to pass through user request information. The callback and task flow status change callback return the value of this field. The maximum length is 1000 characters.</p>
+	SessionContext *string `json:"SessionContext,omitnil,omitempty" name:"SessionContext"`
+
+	// <p>Identification Code for Task Deduplication. If a request with the same identification code has been made within the past 3 days, an error will be returned for the current request. The maximum length is 50 characters. Not specifying it or specifying an empty string means no deduplication.</p>
+	SessionId *string `json:"SessionId,omitnil,omitempty" name:"SessionId"`
+}
+
+type DesignVoiceAsyncRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Voice description.</p>
+	Prompt *string `json:"Prompt,omitnil,omitempty" name:"Prompt"`
+
+	// <p>VOD application ID. For customers who activated on-demand services after December 25, 2023, this field must be set to the app ID when accessing resources in VOD applications, whether it is the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Voice settings</p>
+	VoiceSettings *VoiceSettings `json:"VoiceSettings,omitnil,omitempty" name:"VoiceSettings"`
+
+	// <p>Audition synthesis text. Maximum 500 characters.</p>
+	PreviewText *string `json:"PreviewText,omitnil,omitempty" name:"PreviewText"`
+
+	// <p>Extended parameters in the format of a JSON string.</p>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+
+	// <p>Identifies the source context. This is used to pass through user request information. The callback and task flow status change callback return the value of this field. The maximum length is 1000 characters.</p>
+	SessionContext *string `json:"SessionContext,omitnil,omitempty" name:"SessionContext"`
+
+	// <p>Identification Code for Task Deduplication. If a request with the same identification code has been made within the past 3 days, an error will be returned for the current request. The maximum length is 50 characters. Not specifying it or specifying an empty string means no deduplication.</p>
+	SessionId *string `json:"SessionId,omitnil,omitempty" name:"SessionId"`
+}
+
+func (r *DesignVoiceAsyncRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DesignVoiceAsyncRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "Prompt")
+	delete(f, "SubAppId")
+	delete(f, "VoiceSettings")
+	delete(f, "PreviewText")
+	delete(f, "ExtParam")
+	delete(f, "SessionContext")
+	delete(f, "SessionId")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "DesignVoiceAsyncRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type DesignVoiceAsyncResponseParams struct {
+	// <p>Task ID, used when querying a task.</p>
+	TaskId *string `json:"TaskId,omitnil,omitempty" name:"TaskId"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type DesignVoiceAsyncResponse struct {
+	*tchttp.BaseResponse
+	Response *DesignVoiceAsyncResponseParams `json:"Response"`
+}
+
+func (r *DesignVoiceAsyncResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DesignVoiceAsyncResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 
@@ -32917,6 +33413,220 @@ type TerrorismOcrReviewTemplateInfoForUpdate struct {
 	ReviewConfidence *int64 `json:"ReviewConfidence,omitnil,omitempty" name:"ReviewConfidence"`
 }
 
+type TextToSpeechAsyncOutputOption struct {
+	// <p>Output type of the synthesis result. </p><p>Enumeration values: </p><ul><li>fileId: Generate a new VOD file ID</li><li>url: Audio URL, valid for 24 hours.</li></ul>
+	Type *string `json:"Type,omitnil,omitempty" name:"Type"`
+}
+
+// Predefined struct for user
+type TextToSpeechAsyncRequestParams struct {
+	// <p>Text to convert to speech.</p>
+	Text *string `json:"Text,omitnil,omitempty" name:"Text"`
+
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>VOD application ID. For customers who activate on-demand services on or after December 25, 2023, this field must be set to the app ID when accessing resources in on-demand applications, whether in the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Extended parameters for text-to-speech (async). Fields supported by ExtParam:</p><ul><li>model (string): Synthesis model. Options: minimax-speech-2.8-hd, minimax-speech-2.8-turbo, minimax-speech-2.6-hd, minimax-speech-2.6-turbo, minimax-speech-02-hd, minimax-speech-02-turbo. Default: minimax-speech-2.8-hd.</li><li>text_lang (string): Text language, for example zh / en. Synonymous with the input parameter LanguageBoost. If both are passed, ExtParam takes precedence.</li><li>audio_setting (object): Audio output and voice type fine-tuning parameters. Note: For the async API, speaking rate, volume, pitch, and emotion are all under audio_setting, different from the voice_setting of the synchronous API. Optional fields:<ul><li>speed (float): Speaking rate, [0.5, 2.0]. Default: 1.0.</li><li>vol (float): Volume, (0, 10]. Default: 1.0.</li><li>pitch (int): Pitch, [-12, 12]. Default: 0.</li><li>emotion (string): Emotion. Options: happy, sad, angry, fearful, disgusted, surprised, calm, fluent, whisper.</li><li>sample_rate (int): Sampling rate. Options: 8000, 16000, 22050, 24000, 32000, 44100. Default: 16000.</li><li>format (string): Audio format. Options: mp3, wav. Default: wav.</li><li>duration (float): Target duration in seconds.</li><li>cut_silence (bool): Whether to trim silent segments.</li></ul></li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+
+	// <p>Output parameters.</p><p>Specifies the output format, etc. The default output audio url.</p>
+	Output *TextToSpeechAsyncOutputOption `json:"Output,omitnil,omitempty" name:"Output"`
+
+	// <p>Identifies the source context. This is used to pass user request information. The value of this field will be returned in callbacks and task flow status change callbacks. The maximum length is 1000 characters.</p>
+	SessionContext *string `json:"SessionContext,omitnil,omitempty" name:"SessionContext"`
+
+	// <p>Identification Code for Task Deduplication. If a request with the same identification code has been sent within the past 3 days, an error will be returned for the current request. The maximum length is 50 characters. If this is not specified or left empty, it indicates no deduplication.</p>
+	SessionId *string `json:"SessionId,omitnil,omitempty" name:"SessionId"`
+}
+
+type TextToSpeechAsyncRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Text to convert to speech.</p>
+	Text *string `json:"Text,omitnil,omitempty" name:"Text"`
+
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>VOD application ID. For customers who activate on-demand services on or after December 25, 2023, this field must be set to the app ID when accessing resources in on-demand applications, whether in the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Extended parameters for text-to-speech (async). Fields supported by ExtParam:</p><ul><li>model (string): Synthesis model. Options: minimax-speech-2.8-hd, minimax-speech-2.8-turbo, minimax-speech-2.6-hd, minimax-speech-2.6-turbo, minimax-speech-02-hd, minimax-speech-02-turbo. Default: minimax-speech-2.8-hd.</li><li>text_lang (string): Text language, for example zh / en. Synonymous with the input parameter LanguageBoost. If both are passed, ExtParam takes precedence.</li><li>audio_setting (object): Audio output and voice type fine-tuning parameters. Note: For the async API, speaking rate, volume, pitch, and emotion are all under audio_setting, different from the voice_setting of the synchronous API. Optional fields:<ul><li>speed (float): Speaking rate, [0.5, 2.0]. Default: 1.0.</li><li>vol (float): Volume, (0, 10]. Default: 1.0.</li><li>pitch (int): Pitch, [-12, 12]. Default: 0.</li><li>emotion (string): Emotion. Options: happy, sad, angry, fearful, disgusted, surprised, calm, fluent, whisper.</li><li>sample_rate (int): Sampling rate. Options: 8000, 16000, 22050, 24000, 32000, 44100. Default: 16000.</li><li>format (string): Audio format. Options: mp3, wav. Default: wav.</li><li>duration (float): Target duration in seconds.</li><li>cut_silence (bool): Whether to trim silent segments.</li></ul></li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+
+	// <p>Output parameters.</p><p>Specifies the output format, etc. The default output audio url.</p>
+	Output *TextToSpeechAsyncOutputOption `json:"Output,omitnil,omitempty" name:"Output"`
+
+	// <p>Identifies the source context. This is used to pass user request information. The value of this field will be returned in callbacks and task flow status change callbacks. The maximum length is 1000 characters.</p>
+	SessionContext *string `json:"SessionContext,omitnil,omitempty" name:"SessionContext"`
+
+	// <p>Identification Code for Task Deduplication. If a request with the same identification code has been sent within the past 3 days, an error will be returned for the current request. The maximum length is 50 characters. If this is not specified or left empty, it indicates no deduplication.</p>
+	SessionId *string `json:"SessionId,omitnil,omitempty" name:"SessionId"`
+}
+
+func (r *TextToSpeechAsyncRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *TextToSpeechAsyncRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "Text")
+	delete(f, "VoiceId")
+	delete(f, "SubAppId")
+	delete(f, "LanguageBoost")
+	delete(f, "ExtParam")
+	delete(f, "Output")
+	delete(f, "SessionContext")
+	delete(f, "SessionId")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "TextToSpeechAsyncRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type TextToSpeechAsyncResponseParams struct {
+	// <p>Task ID. Use this ID to query the result.</p>
+	TaskId *string `json:"TaskId,omitnil,omitempty" name:"TaskId"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type TextToSpeechAsyncResponse struct {
+	*tchttp.BaseResponse
+	Response *TextToSpeechAsyncResponseParams `json:"Response"`
+}
+
+func (r *TextToSpeechAsyncResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *TextToSpeechAsyncResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+type TextToSpeechSyncOutputOption struct {
+	// <p>Output type of the synthesis result. </p><p>Enumeration values: </p><ul><li>hex: Audio base64 encoding, </li><li>url: Audio URL, valid for 24 hours.</li></ul>
+	Type *string `json:"Type,omitnil,omitempty" name:"Type"`
+}
+
+// Predefined struct for user
+type TextToSpeechSyncRequestParams struct {
+	// <p>Text for the synthesis. This is required for text to speech. The text cannot exceed 2000 bytes in length.</p>
+	Text *string `json:"Text,omitnil,omitempty" name:"Text"`
+
+	// <p>Voice Id. Fill in when synthesizing with a specified timbre. System, designed, and cloned timbres are supported.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>VOD application ID. Customers who activate on-demand services on or after December 25, 2023 must fill in this field with the application ID when accessing resources in VOD applications, whether in the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Output parameters.</p><p>Specifies the output format, etc. The default output audio format is base64.</p>
+	Output *TextToSpeechSyncOutputOption `json:"Output,omitnil,omitempty" name:"Output"`
+
+	// <p>Synchronous speech synthesis expansion parameters. Fields supported by <code>ExtParam</code>:</p><ul>  <li><code>model</code> (string): Synthesis model. Options: <code>minimax-speech-2.8-hd</code>, <code>minimax-speech-2.8-turbo</code>, <code>minimax-speech-2.6-hd</code>, <code>minimax-speech-2.6-turbo</code>, <code>minimax-speech-02-hd</code>, <code>minimax-speech-02-turbo</code>. Default: <code>minimax-speech-2.8-hd</code>.</li>  <li><code>voice_setting</code> (object): Fine adjustment of voice type. Optional fields:    <ul>      <li><code>speed</code> (float): Speech speed, <code>[0.5, 2.0]</code>. Default: <code>1.0</code>.</li>      <li><code>vol</code> (float): Volume, <code>(0, 10]</code>. Default: <code>1.0</code>.</li>      <li><code>pitch</code> (int): Pitch, <code>[-12, 12]</code>. Default: <code>0</code>.</li>      <li><code>emotion</code> (string): Emotion. Options: <code>happy</code> / <code>sad</code> / <code>angry</code> / <code>fearful</code> / <code>disgusted</code> / <code>surprised</code> / <code>calm</code> / <code>fluent</code> / <code>whisper</code>.</li>    </ul>  </li>  <li><code>audio_setting</code> (object): Audio output parameter. Optional fields:    <ul>      <li><code>sample_rate</code> (int): Sampling rate. Options: <code>8000</code> / <code>16000</code> / <code>22050</code> / <code>24000</code> / <code>32000</code> / <code>44100</code>. Default: <code>16000</code>.</li>      <li><code>format</code> (string): Audio format. Options: <code>mp3</code> / <code>wav</code>. Default: <code>wav</code>.</li>      <li><code>duration</code> (float): Target duration (seconds).</li>      <li><code>cut_silence</code> (bool): Whether to trim silence segments.</li>    </ul>  </li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+type TextToSpeechSyncRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Text for the synthesis. This is required for text to speech. The text cannot exceed 2000 bytes in length.</p>
+	Text *string `json:"Text,omitnil,omitempty" name:"Text"`
+
+	// <p>Voice Id. Fill in when synthesizing with a specified timbre. System, designed, and cloned timbres are supported.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>VOD application ID. Customers who activate on-demand services on or after December 25, 2023 must fill in this field with the application ID when accessing resources in VOD applications, whether in the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Language enhancement, such as "zh" "en" "auto", default "auto"</p>
+	LanguageBoost *string `json:"LanguageBoost,omitnil,omitempty" name:"LanguageBoost"`
+
+	// <p>Output parameters.</p><p>Specifies the output format, etc. The default output audio format is base64.</p>
+	Output *TextToSpeechSyncOutputOption `json:"Output,omitnil,omitempty" name:"Output"`
+
+	// <p>Synchronous speech synthesis expansion parameters. Fields supported by <code>ExtParam</code>:</p><ul>  <li><code>model</code> (string): Synthesis model. Options: <code>minimax-speech-2.8-hd</code>, <code>minimax-speech-2.8-turbo</code>, <code>minimax-speech-2.6-hd</code>, <code>minimax-speech-2.6-turbo</code>, <code>minimax-speech-02-hd</code>, <code>minimax-speech-02-turbo</code>. Default: <code>minimax-speech-2.8-hd</code>.</li>  <li><code>voice_setting</code> (object): Fine adjustment of voice type. Optional fields:    <ul>      <li><code>speed</code> (float): Speech speed, <code>[0.5, 2.0]</code>. Default: <code>1.0</code>.</li>      <li><code>vol</code> (float): Volume, <code>(0, 10]</code>. Default: <code>1.0</code>.</li>      <li><code>pitch</code> (int): Pitch, <code>[-12, 12]</code>. Default: <code>0</code>.</li>      <li><code>emotion</code> (string): Emotion. Options: <code>happy</code> / <code>sad</code> / <code>angry</code> / <code>fearful</code> / <code>disgusted</code> / <code>surprised</code> / <code>calm</code> / <code>fluent</code> / <code>whisper</code>.</li>    </ul>  </li>  <li><code>audio_setting</code> (object): Audio output parameter. Optional fields:    <ul>      <li><code>sample_rate</code> (int): Sampling rate. Options: <code>8000</code> / <code>16000</code> / <code>22050</code> / <code>24000</code> / <code>32000</code> / <code>44100</code>. Default: <code>16000</code>.</li>      <li><code>format</code> (string): Audio format. Options: <code>mp3</code> / <code>wav</code>. Default: <code>wav</code>.</li>      <li><code>duration</code> (float): Target duration (seconds).</li>      <li><code>cut_silence</code> (bool): Whether to trim silence segments.</li>    </ul>  </li></ul>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+func (r *TextToSpeechSyncRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *TextToSpeechSyncRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "Text")
+	delete(f, "VoiceId")
+	delete(f, "SubAppId")
+	delete(f, "LanguageBoost")
+	delete(f, "Output")
+	delete(f, "ExtParam")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "TextToSpeechSyncRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type TextToSpeechSyncResponseParams struct {
+	// <p>base64-encoded synthetic audio in wav format.</p>
+	AudioData *string `json:"AudioData,omitnil,omitempty" name:"AudioData"`
+
+	// <p>Synthetic audio URL. It is valid for 24 hours.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
+
+	// <p>Extended information in the format of a JSON string. </p><p>duration: Duration of the resulting audio, in seconds.</p>
+	ExtInfo *string `json:"ExtInfo,omitnil,omitempty" name:"ExtInfo"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type TextToSpeechSyncResponse struct {
+	*tchttp.BaseResponse
+	Response *TextToSpeechSyncResponseParams `json:"Response"`
+}
+
+func (r *TextToSpeechSyncResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *TextToSpeechSyncResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
 type TextWatermarkTemplateInput struct {
 	// Font type. Currently, two types are supported:
 	// <li>simkai.ttf: both Chinese and English are supported;</li>
@@ -33311,6 +34021,84 @@ func (r *UpdateAigcApiTokenResponse) ToJsonString() string {
 // FromJsonString It is highly **NOT** recommended to use this function
 // because it has no param check, nor strict type check
 func (r *UpdateAigcApiTokenResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type UpdateVoiceRequestParams struct {
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>Fields of the updated voice.</p>
+	VoiceFields *VoiceUpdateFields `json:"VoiceFields,omitnil,omitempty" name:"VoiceFields"`
+
+	// <p>VOD application ID. From December 25, 2023, customers who activate on-demand services must fill in this field as the app ID when accessing resources in on-demand applications, whether in the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Extended parameters in the format of a JSON string.</p>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+type UpdateVoiceRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>Fields of the updated voice.</p>
+	VoiceFields *VoiceUpdateFields `json:"VoiceFields,omitnil,omitempty" name:"VoiceFields"`
+
+	// <p>VOD application ID. From December 25, 2023, customers who activate on-demand services must fill in this field as the app ID when accessing resources in on-demand applications, whether in the default application or a newly created application.</p>
+	SubAppId *string `json:"SubAppId,omitnil,omitempty" name:"SubAppId"`
+
+	// <p>Extended parameters in the format of a JSON string.</p>
+	ExtParam *string `json:"ExtParam,omitnil,omitempty" name:"ExtParam"`
+}
+
+func (r *UpdateVoiceRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *UpdateVoiceRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "VoiceId")
+	delete(f, "VoiceFields")
+	delete(f, "SubAppId")
+	delete(f, "ExtParam")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "UpdateVoiceRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type UpdateVoiceResponseParams struct {
+	// <p>Voice information after the update.</p>
+	Voice *VoiceInfo `json:"Voice,omitnil,omitempty" name:"Voice"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type UpdateVoiceResponse struct {
+	*tchttp.BaseResponse
+	Response *UpdateVoiceResponseParams `json:"Response"`
+}
+
+func (r *UpdateVoiceResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *UpdateVoiceResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 
@@ -33861,6 +34649,87 @@ type VoiceConfigureInfoForUpdate struct {
 	// <li>ON: on; </li>
 	// <li>OFF: off. </li>
 	Switch *string `json:"Switch,omitnil,omitempty" name:"Switch"`
+}
+
+type VoiceInfo struct {
+	// <p>Voice ID.</p>
+	VoiceId *string `json:"VoiceId,omitnil,omitempty" name:"VoiceId"`
+
+	// <p>Voice name.</p>
+	Name *string `json:"Name,omitnil,omitempty" name:"Name"`
+
+	// <p>Voice description.</p>
+	Description *string `json:"Description,omitnil,omitempty" name:"Description"`
+
+	// <p>Voice type.</p><p>Enumeration values:</p><ul><li>system: system audio.</li><li>clone: cloned audio.</li><li>design: designed audio.</li></ul>
+	Category *string `json:"Category,omitnil,omitempty" name:"Category"`
+
+	// <p>Gender. </p><p>Enumeration values: </p><ul><li>male: Male, </li><li>female: Female.</li></ul>
+	Gender *string `json:"Gender,omitnil,omitempty" name:"Gender"`
+
+	// <p>Age.</p><p>Enumeration values:</p><ul><li>child: child</li><li>teenager: teenager</li><li>youth: youth</li><li>middle_aged: middle-aged</li><li>senior: senior</li><li>unknown: unknown</li></ul>
+	Age *string `json:"Age,omitnil,omitempty" name:"Age"`
+
+	// <p>List of supported languages. </p><p>For example: en.</p>
+	Languages []*string `json:"Languages,omitnil,omitempty" name:"Languages"`
+
+	// <p>Audition audio URL.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
+
+	// <p>List of tags. </p><p>For example: gentle.</p>
+	Labels []*string `json:"Labels,omitnil,omitempty" name:"Labels"`
+
+	// <p>Recommended scenarios. </p><p>For example: education.</p>
+	Scenes []*string `json:"Scenes,omitnil,omitempty" name:"Scenes"`
+}
+
+type VoiceSettings struct {
+	// <p>Voice name.</p>
+	Name *string `json:"Name,omitnil,omitempty" name:"Name"`
+
+	// <p>Voice description.</p>
+	Description *string `json:"Description,omitnil,omitempty" name:"Description"`
+
+	// <p>Gender.</p><p>Enumeration values:</p><ul><li>male: male</li><li>female: female</li><li>unknown: unknown</li></ul>
+	Gender *string `json:"Gender,omitnil,omitempty" name:"Gender"`
+
+	// <p>Age.</p><p>Enumeration values:</p><ul><li>child: child</li><li>teenager: teenager</li><li>youth: youth</li><li>middle_aged: middle-aged</li><li>senior: senior</li><li>unknown: unknown</li></ul>
+	Age *string `json:"Age,omitnil,omitempty" name:"Age"`
+
+	// <p>Language. Supported languages:<br>zh Chinese<br>en English<br>ja Japanese<br>de German<br>fr French<br>ko Korean<br>ru Russian<br>uk Ukrainian<br>pt Portuguese<br>it Italian<br>es Spanish<br>id Indonesian<br>nl Dutch<br>tr Turkish<br>fil Filipino<br>ms Malay<br>el Greek<br>fi Finnish<br>hr Croatian<br>sk Slovak<br>pl Polish<br>sv Swedish<br>hi Hindi<br>bg Bulgarian<br>ro Romanian<br>ar Arabic<br>cs Czech<br>da Danish<br>ta Tamil<br>hun Hungarian<br>vi Vietnamese<br>no Norwegian<br>yue Cantonese<br>th Thai<br>he Hebrew<br>ca Catalan<br>nn Nynorsk<br>af Afrikaans<br>fa Persian<br>sl Slovenian</p>
+	Languages []*string `json:"Languages,omitnil,omitempty" name:"Languages"`
+
+	// <p>Tag.</p>
+	Labels []*string `json:"Labels,omitnil,omitempty" name:"Labels"`
+
+	// <p>Scenario.</p>
+	Scenes []*string `json:"Scenes,omitnil,omitempty" name:"Scenes"`
+}
+
+type VoiceUpdateFields struct {
+	// <p>Voice name.</p>
+	Name *string `json:"Name,omitnil,omitempty" name:"Name"`
+
+	// <p>Voice description.</p>
+	Description *string `json:"Description,omitnil,omitempty" name:"Description"`
+
+	// <p>Gender.</p><p>Enumeration values:</p><ul><li>male: male</li><li>female: female</li><li>unknown: unknown</li></ul>
+	Gender *string `json:"Gender,omitnil,omitempty" name:"Gender"`
+
+	// <p>Age.</p><p>Enumeration values:</p><ul><li>child: child</li><li>teenager: teenager</li><li>youth: youth</li><li>middle_aged: middle-aged</li><li>senior: senior</li><li>unknown: unknown</li></ul>
+	Age *string `json:"Age,omitnil,omitempty" name:"Age"`
+
+	// <p>Language.</p>
+	Languages []*string `json:"Languages,omitnil,omitempty" name:"Languages"`
+
+	// <p>Tag.</p>
+	Labels []*string `json:"Labels,omitnil,omitempty" name:"Labels"`
+
+	// <p>Scenario.</p>
+	Scenes []*string `json:"Scenes,omitnil,omitempty" name:"Scenes"`
+
+	// <p>Audition audio.</p>
+	AudioUrl *string `json:"AudioUrl,omitnil,omitempty" name:"AudioUrl"`
 }
 
 type WatermarkConfigureData struct {

@@ -122,6 +122,12 @@ const (
 	// FailedOperation.SetRuleLocationFailed
 	FAILEDOPERATION_SETRULELOCATIONFAILED = "FailedOperation.SetRuleLocationFailed"
 
+	// Disaster recovery relationship check error
+	FAILEDOPERATION_STANDBYRELATIONCHECKERROR = "FailedOperation.StandbyRelationCheckError"
+
+	// Disaster recovery parameter error.
+	FAILEDOPERATION_STANDBYRELATIONPARAMERROR = "FailedOperation.StandbyRelationParamError"
+
 	// The number of tables has exceeded the limit.
 	FAILEDOPERATION_TABLECOUNTLIMITERROR = "FailedOperation.TableCountLimitError"
 
@@ -236,7 +242,7 @@ const (
 	// Instance version validation error.
 	INVALIDPARAMETERVALUE_CHECKINSTANCEVERSIONERROR = "InvalidParameterValue.CheckInstanceVersionError"
 
-	// Name verification failed.
+	// Name verification failure.
 	INVALIDPARAMETERVALUE_CHECKNAMEERROR = "InvalidParameterValue.CheckNameError"
 
 	// Password verification failed.
@@ -245,13 +251,13 @@ const (
 	// Instance specification validation error.
 	INVALIDPARAMETERVALUE_CHECKSPECERROR = "InvalidParameterValue.CheckSpecError"
 
-	// VPC validation error.
+	// vpc validation error.
 	INVALIDPARAMETERVALUE_CHECKVPCERROR = "InvalidParameterValue.CheckVpcError"
 
 	// Filter parameter error in the instance.
 	INVALIDPARAMETERVALUE_INSTANCEFILTERKEYERROR = "InvalidParameterValue.InstanceFilterKeyError"
 
-	// Parameter error
+	// Parameter error.
 	INVALIDPARAMETERVALUE_INVALIDPARAMETERVALUEERROR = "InvalidParameterValue.InvalidParameterValueError"
 
 	// Parameter verification failure for maintenance window
@@ -296,7 +302,10 @@ const (
 	// The running backup task cannot be deleted.
 	OPERATIONDENIED_DELETERUNNINGBACKUPTASKERR = "OperationDenied.DeleteRunningBackupTaskErr"
 
-	// Incorrect instance status
+	// This operation is not supported for the instance currently.
+	OPERATIONDENIED_INSTANCEOPERATIONNOTALLOWEDERROR = "OperationDenied.InstanceOperationNotAllowedError"
+
+	// Incorrect instance status.
 	OPERATIONDENIED_INSTANCESTATUSERROR = "OperationDenied.InstanceStatusError"
 
 	// The quota for performing manual backup on a single instance per day.

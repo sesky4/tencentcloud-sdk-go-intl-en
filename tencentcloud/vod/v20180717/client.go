@@ -231,6 +231,122 @@ func (c *Client) CloneCDNDomainWithContext(ctx context.Context, request *CloneCD
     return
 }
 
+func NewCloneVoiceAsyncRequest() (request *CloneVoiceAsyncRequest) {
+    request = &CloneVoiceAsyncRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "CloneVoiceAsync")
+    
+    
+    return
+}
+
+func NewCloneVoiceAsyncResponse() (response *CloneVoiceAsyncResponse) {
+    response = &CloneVoiceAsyncResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// CloneVoiceAsync
+// This API is used to initiate a voice cloning task. It generates an exclusive voice based on reference audio. The generated voice can be used for subsequent text to speech. Voice cloning is an asynchronous task. The voice ID and audio audition are generated after task completion.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_INVALIDACCOUNT = "FailedOperation.InvalidAccount"
+//  FAILEDOPERATION_INVALIDVODUSER = "FailedOperation.InvalidVodUser"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) CloneVoiceAsync(request *CloneVoiceAsyncRequest) (response *CloneVoiceAsyncResponse, err error) {
+    return c.CloneVoiceAsyncWithContext(context.Background(), request)
+}
+
+// CloneVoiceAsync
+// This API is used to initiate a voice cloning task. It generates an exclusive voice based on reference audio. The generated voice can be used for subsequent text to speech. Voice cloning is an asynchronous task. The voice ID and audio audition are generated after task completion.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_INVALIDACCOUNT = "FailedOperation.InvalidAccount"
+//  FAILEDOPERATION_INVALIDVODUSER = "FailedOperation.InvalidVodUser"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) CloneVoiceAsyncWithContext(ctx context.Context, request *CloneVoiceAsyncRequest) (response *CloneVoiceAsyncResponse, err error) {
+    if request == nil {
+        request = NewCloneVoiceAsyncRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "CloneVoiceAsync")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("CloneVoiceAsync require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewCloneVoiceAsyncResponse()
+    err = c.Send(request, response)
+    return
+}
+
+func NewCloneVoiceSyncRequest() (request *CloneVoiceSyncRequest) {
+    request = &CloneVoiceSyncRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "CloneVoiceSync")
+    
+    
+    return
+}
+
+func NewCloneVoiceSyncResponse() (response *CloneVoiceSyncResponse) {
+    response = &CloneVoiceSyncResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// CloneVoiceSync
+// This API is used to initiate a voice cloning task to clone an exclusive voice based on reference audio. The generated voice can be used for subsequent text to speech.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_INVALIDACCOUNT = "FailedOperation.InvalidAccount"
+//  FAILEDOPERATION_INVALIDVODUSER = "FailedOperation.InvalidVodUser"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) CloneVoiceSync(request *CloneVoiceSyncRequest) (response *CloneVoiceSyncResponse, err error) {
+    return c.CloneVoiceSyncWithContext(context.Background(), request)
+}
+
+// CloneVoiceSync
+// This API is used to initiate a voice cloning task to clone an exclusive voice based on reference audio. The generated voice can be used for subsequent text to speech.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_INVALIDACCOUNT = "FailedOperation.InvalidAccount"
+//  FAILEDOPERATION_INVALIDVODUSER = "FailedOperation.InvalidVodUser"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) CloneVoiceSyncWithContext(ctx context.Context, request *CloneVoiceSyncRequest) (response *CloneVoiceSyncResponse, err error) {
+    if request == nil {
+        request = NewCloneVoiceSyncRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "CloneVoiceSync")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("CloneVoiceSync require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewCloneVoiceSyncResponse()
+    err = c.Send(request, response)
+    return
+}
+
 func NewCommitUploadRequest() (request *CommitUploadRequest) {
     request = &CommitUploadRequest{
         BaseRequest: &tchttp.BaseRequest{},
@@ -5609,6 +5725,68 @@ func (c *Client) DeleteVodDomainWithContext(ctx context.Context, request *Delete
     return
 }
 
+func NewDeleteVoiceRequest() (request *DeleteVoiceRequest) {
+    request = &DeleteVoiceRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "DeleteVoice")
+    
+    
+    return
+}
+
+func NewDeleteVoiceResponse() (response *DeleteVoiceResponse) {
+    response = &DeleteVoiceResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// DeleteVoice
+// This API is used to delete a specified voice by voice ID. Deletion is irreversible and the voice cannot be used for subsequent APIs. It only supports deletion of voices for this account. System preset voices cannot be deleted.
+//
+// 
+//
+// Note: Newly designed or cloned voice types cannot be deleted before activation (not found means non-operational). They are activated only after the newly created voice type is used for TTS once.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) DeleteVoice(request *DeleteVoiceRequest) (response *DeleteVoiceResponse, err error) {
+    return c.DeleteVoiceWithContext(context.Background(), request)
+}
+
+// DeleteVoice
+// This API is used to delete a specified voice by voice ID. Deletion is irreversible and the voice cannot be used for subsequent APIs. It only supports deletion of voices for this account. System preset voices cannot be deleted.
+//
+// 
+//
+// Note: Newly designed or cloned voice types cannot be deleted before activation (not found means non-operational). They are activated only after the newly created voice type is used for TTS once.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  FAILEDOPERATION = "FailedOperation"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) DeleteVoiceWithContext(ctx context.Context, request *DeleteVoiceRequest) (response *DeleteVoiceResponse, err error) {
+    if request == nil {
+        request = NewDeleteVoiceRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "DeleteVoice")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("DeleteVoice require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewDeleteVoiceResponse()
+    err = c.Send(request, response)
+    return
+}
+
 func NewDeleteWatermarkTemplateRequest() (request *DeleteWatermarkTemplateRequest) {
     request = &DeleteWatermarkTemplateRequest{
         BaseRequest: &tchttp.BaseRequest{},
@@ -9423,6 +9601,76 @@ func (c *Client) DescribeVodDomainsWithContext(ctx context.Context, request *Des
     return
 }
 
+func NewDescribeVoicesRequest() (request *DescribeVoicesRequest) {
+    request = &DescribeVoicesRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "DescribeVoices")
+    
+    
+    return
+}
+
+func NewDescribeVoicesResponse() (response *DescribeVoicesResponse) {
+    response = &DescribeVoicesResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// DescribeVoices
+// Query the available timbre list under the current account. It supports filtering by optional conditions such as voice ID, kind, name, gender, age, language, tag, and scenario.
+//
+// 
+//
+// Note: Newly designed or cloned voice types cannot be queried before activation. They are activated only after the newly created voice type is used for TTS once.
+//
+// error code that may be returned:
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_INVALIDVODUSER = "FailedOperation.InvalidVodUser"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETERVALUE_LIMIT = "InvalidParameterValue.Limit"
+//  INVALIDPARAMETERVALUE_LIMITTOOLARGE = "InvalidParameterValue.LimitTooLarge"
+//  INVALIDPARAMETERVALUE_OFFSET = "InvalidParameterValue.Offset"
+//  INVALIDPARAMETERVALUE_OFFSETTOOLARGE = "InvalidParameterValue.OffsetTooLarge"
+func (c *Client) DescribeVoices(request *DescribeVoicesRequest) (response *DescribeVoicesResponse, err error) {
+    return c.DescribeVoicesWithContext(context.Background(), request)
+}
+
+// DescribeVoices
+// Query the available timbre list under the current account. It supports filtering by optional conditions such as voice ID, kind, name, gender, age, language, tag, and scenario.
+//
+// 
+//
+// Note: Newly designed or cloned voice types cannot be queried before activation. They are activated only after the newly created voice type is used for TTS once.
+//
+// error code that may be returned:
+//  FAILEDOPERATION = "FailedOperation"
+//  FAILEDOPERATION_INVALIDVODUSER = "FailedOperation.InvalidVodUser"
+//  INVALIDPARAMETER = "InvalidParameter"
+//  INVALIDPARAMETERVALUE_LIMIT = "InvalidParameterValue.Limit"
+//  INVALIDPARAMETERVALUE_LIMITTOOLARGE = "InvalidParameterValue.LimitTooLarge"
+//  INVALIDPARAMETERVALUE_OFFSET = "InvalidParameterValue.Offset"
+//  INVALIDPARAMETERVALUE_OFFSETTOOLARGE = "InvalidParameterValue.OffsetTooLarge"
+func (c *Client) DescribeVoicesWithContext(ctx context.Context, request *DescribeVoicesRequest) (response *DescribeVoicesResponse, err error) {
+    if request == nil {
+        request = NewDescribeVoicesRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "DescribeVoices")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("DescribeVoices require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewDescribeVoicesResponse()
+    err = c.Send(request, response)
+    return
+}
+
 func NewDescribeWatermarkTemplatesRequest() (request *DescribeWatermarkTemplatesRequest) {
     request = &DescribeWatermarkTemplatesRequest{
         BaseRequest: &tchttp.BaseRequest{},
@@ -9537,6 +9785,60 @@ func (c *Client) DescribeWordSamplesWithContext(ctx context.Context, request *De
     request.SetContext(ctx)
     
     response = NewDescribeWordSamplesResponse()
+    err = c.Send(request, response)
+    return
+}
+
+func NewDesignVoiceAsyncRequest() (request *DesignVoiceAsyncRequest) {
+    request = &DesignVoiceAsyncRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "DesignVoiceAsync")
+    
+    
+    return
+}
+
+func NewDesignVoiceAsyncResponse() (response *DesignVoiceAsyncResponse) {
+    response = &DesignVoiceAsyncResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// DesignVoiceAsync
+// This API is used to initiate a voice design task. It generates a custom voice based on a natural language description. You can also specify a voice profile, such as name, gender, age, language, tag, and scenario. If trial text is attached upon submission, an audio audition is generated after task completion. Voice design is an asynchronous task, and the voice ID is generated after task completion.
+//
+// error code that may be returned:
+//  INTERNALERROR = "InternalError"
+//  INVALIDPARAMETERVALUE = "InvalidParameterValue"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+func (c *Client) DesignVoiceAsync(request *DesignVoiceAsyncRequest) (response *DesignVoiceAsyncResponse, err error) {
+    return c.DesignVoiceAsyncWithContext(context.Background(), request)
+}
+
+// DesignVoiceAsync
+// This API is used to initiate a voice design task. It generates a custom voice based on a natural language description. You can also specify a voice profile, such as name, gender, age, language, tag, and scenario. If trial text is attached upon submission, an audio audition is generated after task completion. Voice design is an asynchronous task, and the voice ID is generated after task completion.
+//
+// error code that may be returned:
+//  INTERNALERROR = "InternalError"
+//  INVALIDPARAMETERVALUE = "InvalidParameterValue"
+//  UNAUTHORIZEDOPERATION = "UnauthorizedOperation"
+func (c *Client) DesignVoiceAsyncWithContext(ctx context.Context, request *DesignVoiceAsyncRequest) (response *DesignVoiceAsyncResponse, err error) {
+    if request == nil {
+        request = NewDesignVoiceAsyncRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "DesignVoiceAsync")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("DesignVoiceAsync require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewDesignVoiceAsyncResponse()
     err = c.Send(request, response)
     return
 }
@@ -15017,6 +15319,110 @@ func (c *Client) StartCDNDomainWithContext(ctx context.Context, request *StartCD
     return
 }
 
+func NewTextToSpeechAsyncRequest() (request *TextToSpeechAsyncRequest) {
+    request = &TextToSpeechAsyncRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "TextToSpeechAsync")
+    
+    
+    return
+}
+
+func NewTextToSpeechAsyncResponse() (response *TextToSpeechAsyncResponse) {
+    response = &TextToSpeechAsyncResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// TextToSpeechAsync
+// Initiate a speech synthesis task to convert text into speech, oriented towards long text scenarios (maximum 200,000 characters), supporting specified timbre and synthesis parameters such as speaking rate, volume, pitch, sampling rate, and output format. Speech synthesis is an asynchronous task, and audio results are generated upon completion.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) TextToSpeechAsync(request *TextToSpeechAsyncRequest) (response *TextToSpeechAsyncResponse, err error) {
+    return c.TextToSpeechAsyncWithContext(context.Background(), request)
+}
+
+// TextToSpeechAsync
+// Initiate a speech synthesis task to convert text into speech, oriented towards long text scenarios (maximum 200,000 characters), supporting specified timbre and synthesis parameters such as speaking rate, volume, pitch, sampling rate, and output format. Speech synthesis is an asynchronous task, and audio results are generated upon completion.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) TextToSpeechAsyncWithContext(ctx context.Context, request *TextToSpeechAsyncRequest) (response *TextToSpeechAsyncResponse, err error) {
+    if request == nil {
+        request = NewTextToSpeechAsyncRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "TextToSpeechAsync")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("TextToSpeechAsync require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewTextToSpeechAsyncResponse()
+    err = c.Send(request, response)
+    return
+}
+
+func NewTextToSpeechSyncRequest() (request *TextToSpeechSyncRequest) {
+    request = &TextToSpeechSyncRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "TextToSpeechSync")
+    
+    
+    return
+}
+
+func NewTextToSpeechSyncResponse() (response *TextToSpeechSyncResponse) {
+    response = &TextToSpeechSyncResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// TextToSpeechSync
+// Initiate a speech synthesis task to convert text into speech.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) TextToSpeechSync(request *TextToSpeechSyncRequest) (response *TextToSpeechSyncResponse, err error) {
+    return c.TextToSpeechSyncWithContext(context.Background(), request)
+}
+
+// TextToSpeechSync
+// Initiate a speech synthesis task to convert text into speech.
+//
+// error code that may be returned:
+//  AUTHFAILURE = "AuthFailure"
+//  INVALIDPARAMETER = "InvalidParameter"
+func (c *Client) TextToSpeechSyncWithContext(ctx context.Context, request *TextToSpeechSyncRequest) (response *TextToSpeechSyncResponse, err error) {
+    if request == nil {
+        request = NewTextToSpeechSyncRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "TextToSpeechSync")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("TextToSpeechSync require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewTextToSpeechSyncResponse()
+    err = c.Send(request, response)
+    return
+}
+
 func NewUpdateAigcApiTokenRequest() (request *UpdateAigcApiTokenRequest) {
     request = &UpdateAigcApiTokenRequest{
         BaseRequest: &tchttp.BaseRequest{},
@@ -15069,6 +15475,70 @@ func (c *Client) UpdateAigcApiTokenWithContext(ctx context.Context, request *Upd
     request.SetContext(ctx)
     
     response = NewUpdateAigcApiTokenResponse()
+    err = c.Send(request, response)
+    return
+}
+
+func NewUpdateVoiceRequest() (request *UpdateVoiceRequest) {
+    request = &UpdateVoiceRequest{
+        BaseRequest: &tchttp.BaseRequest{},
+    }
+    
+    request.Init().WithApiInfo("vod", APIVersion, "UpdateVoice")
+    
+    
+    return
+}
+
+func NewUpdateVoiceResponse() (response *UpdateVoiceResponse) {
+    response = &UpdateVoiceResponse{
+        BaseResponse: &tchttp.BaseResponse{},
+    } 
+    return
+
+}
+
+// UpdateVoice
+// This API is used to update the profile of a voice by voice ID, including its name, description, gender, age, language, tags, and scenarios, and returns the complete voice information after the update. Only voices under this account can be updated. System preset voices do not support update.
+//
+// 
+//
+// Note: Newly designed or cloned voice types cannot be updated before activation. They are activated only after the newly created voice type is used for TTS once.
+//
+// error code that may be returned:
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DBError"
+//  INVALIDPARAMETERVALUE = "InvalidParameterValue"
+//  LIMITEXCEEDED = "LimitExceeded"
+//  RESOURCENOTFOUND_USERNOTEXIST = "ResourceNotFound.UserNotExist"
+func (c *Client) UpdateVoice(request *UpdateVoiceRequest) (response *UpdateVoiceResponse, err error) {
+    return c.UpdateVoiceWithContext(context.Background(), request)
+}
+
+// UpdateVoice
+// This API is used to update the profile of a voice by voice ID, including its name, description, gender, age, language, tags, and scenarios, and returns the complete voice information after the update. Only voices under this account can be updated. System preset voices do not support update.
+//
+// 
+//
+// Note: Newly designed or cloned voice types cannot be updated before activation. They are activated only after the newly created voice type is used for TTS once.
+//
+// error code that may be returned:
+//  FAILEDOPERATION_DBERROR = "FailedOperation.DBError"
+//  INVALIDPARAMETERVALUE = "InvalidParameterValue"
+//  LIMITEXCEEDED = "LimitExceeded"
+//  RESOURCENOTFOUND_USERNOTEXIST = "ResourceNotFound.UserNotExist"
+func (c *Client) UpdateVoiceWithContext(ctx context.Context, request *UpdateVoiceRequest) (response *UpdateVoiceResponse, err error) {
+    if request == nil {
+        request = NewUpdateVoiceRequest()
+    }
+    c.InitBaseRequest(&request.BaseRequest, "vod", APIVersion, "UpdateVoice")
+    
+    if c.GetCredential() == nil {
+        return nil, errors.New("UpdateVoice require credential")
+    }
+
+    request.SetContext(ctx)
+    
+    response = NewUpdateVoiceResponse()
     err = c.Send(request, response)
     return
 }
