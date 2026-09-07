@@ -717,6 +717,119 @@ type CertIdInsL7Rules struct {
 }
 
 // Predefined struct for user
+type CreateBgpInstanceRequestParams struct {
+	// Payment type: payment mode: PREPAID (prepayment) POSTPAID_BY_MONTH (pay-as-you-go).
+	InstanceChargeType *string `json:"InstanceChargeType,omitnil,omitempty" name:"InstanceChargeType"`
+
+	// High-Protection package type: specifies the high-protection package type. valid values: Enterprise (Enterprise edition), Standard (Standard version), StandardPlus (Standard version 2.0).
+	PackageType *string `json:"PackageType,omitnil,omitempty" name:"PackageType"`
+
+	// Specifies the number of anti-ddos packages to purchase. valid values: one-time purchase of no more than 10.
+	InstanceCount *uint64 `json:"InstanceCount,omitnil,omitempty" name:"InstanceCount"`
+
+	// { "Period": 3, "RenewFlag": "NOTIFY_AND_AUTO_RENEW" }
+	InstanceChargePrepaid *InstanceChargePrepaid `json:"InstanceChargePrepaid,omitnil,omitempty" name:"InstanceChargePrepaid"`
+
+	// { "Region": "ap-guangzhou", "ProtectIpCount": 1, "BasicProtectBandwidth": 300, "Bandwidth": 100, "ElasticProtectLimit": 0, "ElasticBandwidthFlag": true }
+	EnterprisePackageConfig *EnterprisePackageConfig `json:"EnterprisePackageConfig,omitnil,omitempty" name:"EnterprisePackageConfig"`
+
+	// { "Region": "ap-guangzhou", "ProtectIpCount": 1, "BasicProtectBandwidth": 300, "Bandwidth": 100, "ElasticProtectLimit": 0, "ElasticBandwidthFlag": true }
+	StandardPackageConfig *StandardPackageConfig `json:"StandardPackageConfig,omitnil,omitempty" name:"StandardPackageConfig"`
+
+	// { "Region": "ap-guangzhou", "ProtectCount": "TWO_TIMES", "ProtectIpCount": 1, "Bandwidth": 100, "ElasticBandwidthFlag": true }
+	StandardPlusPackageConfig *StandardPlusPackageConfig `json:"StandardPlusPackageConfig,omitnil,omitempty" name:"StandardPlusPackageConfig"`
+
+	// [ { "TagKey": "beal-test",                 "TagValue": "beal-test"               }             ]
+	TagInfoList []*TagInfo `json:"TagInfoList,omitnil,omitempty" name:"TagInfoList"`
+
+	// false by default. true indicates to perform parameter validation only without actual purchase.
+	DryRun *bool `json:"DryRun,omitnil,omitempty" name:"DryRun"`
+}
+
+type CreateBgpInstanceRequest struct {
+	*tchttp.BaseRequest
+	
+	// Payment type: payment mode: PREPAID (prepayment) POSTPAID_BY_MONTH (pay-as-you-go).
+	InstanceChargeType *string `json:"InstanceChargeType,omitnil,omitempty" name:"InstanceChargeType"`
+
+	// High-Protection package type: specifies the high-protection package type. valid values: Enterprise (Enterprise edition), Standard (Standard version), StandardPlus (Standard version 2.0).
+	PackageType *string `json:"PackageType,omitnil,omitempty" name:"PackageType"`
+
+	// Specifies the number of anti-ddos packages to purchase. valid values: one-time purchase of no more than 10.
+	InstanceCount *uint64 `json:"InstanceCount,omitnil,omitempty" name:"InstanceCount"`
+
+	// { "Period": 3, "RenewFlag": "NOTIFY_AND_AUTO_RENEW" }
+	InstanceChargePrepaid *InstanceChargePrepaid `json:"InstanceChargePrepaid,omitnil,omitempty" name:"InstanceChargePrepaid"`
+
+	// { "Region": "ap-guangzhou", "ProtectIpCount": 1, "BasicProtectBandwidth": 300, "Bandwidth": 100, "ElasticProtectLimit": 0, "ElasticBandwidthFlag": true }
+	EnterprisePackageConfig *EnterprisePackageConfig `json:"EnterprisePackageConfig,omitnil,omitempty" name:"EnterprisePackageConfig"`
+
+	// { "Region": "ap-guangzhou", "ProtectIpCount": 1, "BasicProtectBandwidth": 300, "Bandwidth": 100, "ElasticProtectLimit": 0, "ElasticBandwidthFlag": true }
+	StandardPackageConfig *StandardPackageConfig `json:"StandardPackageConfig,omitnil,omitempty" name:"StandardPackageConfig"`
+
+	// { "Region": "ap-guangzhou", "ProtectCount": "TWO_TIMES", "ProtectIpCount": 1, "Bandwidth": 100, "ElasticBandwidthFlag": true }
+	StandardPlusPackageConfig *StandardPlusPackageConfig `json:"StandardPlusPackageConfig,omitnil,omitempty" name:"StandardPlusPackageConfig"`
+
+	// [ { "TagKey": "beal-test",                 "TagValue": "beal-test"               }             ]
+	TagInfoList []*TagInfo `json:"TagInfoList,omitnil,omitempty" name:"TagInfoList"`
+
+	// false by default. true indicates to perform parameter validation only without actual purchase.
+	DryRun *bool `json:"DryRun,omitnil,omitempty" name:"DryRun"`
+}
+
+func (r *CreateBgpInstanceRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *CreateBgpInstanceRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "InstanceChargeType")
+	delete(f, "PackageType")
+	delete(f, "InstanceCount")
+	delete(f, "InstanceChargePrepaid")
+	delete(f, "EnterprisePackageConfig")
+	delete(f, "StandardPackageConfig")
+	delete(f, "StandardPlusPackageConfig")
+	delete(f, "TagInfoList")
+	delete(f, "DryRun")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "CreateBgpInstanceRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type CreateBgpInstanceResponseParams struct {
+	// bgpIds
+	ResourceIds []*string `json:"ResourceIds,omitnil,omitempty" name:"ResourceIds"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type CreateBgpInstanceResponse struct {
+	*tchttp.BaseResponse
+	Response *CreateBgpInstanceResponseParams `json:"Response"`
+}
+
+func (r *CreateBgpInstanceResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *CreateBgpInstanceResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
 type CreateBlackWhiteIpListRequestParams struct {
 	// Anti-DDoS instance ID
 	InstanceId *string `json:"InstanceId,omitnil,omitempty" name:"InstanceId"`
@@ -5706,6 +5819,28 @@ type EipProductInfo struct {
 	InstanceId *string `json:"InstanceId,omitnil,omitempty" name:"InstanceId"`
 }
 
+type EnterprisePackageConfig struct {
+	// Specifies the region of the anti-ddos pro package.
+	Region *string `json:"Region,omitnil,omitempty" name:"Region"`
+
+	// Number of protected ips.
+	ProtectIpCount *uint64 `json:"ProtectIpCount,omitnil,omitempty" name:"ProtectIpCount"`
+
+	// Specifies the baseline protection bandwidth.
+	BasicProtectBandwidth *uint64 `json:"BasicProtectBandwidth,omitnil,omitempty" name:"BasicProtectBandwidth"`
+
+	// Business bandwidth scale.
+	Bandwidth *uint64 `json:"Bandwidth,omitnil,omitempty" name:"Bandwidth"`
+
+	// Elastic bandwidth in Gbps. valid values: 0, 400, 500, 600, 800, 1000.
+	// The default is 0.
+	ElasticProtectBandwidth *uint64 `json:"ElasticProtectBandwidth,omitnil,omitempty" name:"ElasticProtectBandwidth"`
+
+	// Elastic scaling enabled for business bandwidth.
+	// The default is false.
+	ElasticBandwidthFlag *bool `json:"ElasticBandwidthFlag,omitnil,omitempty" name:"ElasticBandwidthFlag"`
+}
+
 type ForwardListener struct {
 	// The starting port for listener forwarding. Value range: 1 to 65535.
 	FrontendPort *int64 `json:"FrontendPort,omitnil,omitempty" name:"FrontendPort"`
@@ -5808,6 +5943,19 @@ type InsL7Rules struct {
 
 	// Certificate ID
 	SSLId *string `json:"SSLId,omitnil,omitempty" name:"SSLId"`
+}
+
+type InstanceChargePrepaid struct {
+	// Purchase duration. unit: month.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	Period *uint64 `json:"Period,omitnil,omitempty" name:"Period"`
+
+	// NOTIFY_AND_MANUAL_RENEW: notifies that the account is about to expire but does not automatically renew the account.
+	// NOTIFY_AND_AUTO_RENEW: specifies expiration notification and auto-renewal.
+	// DISABLE_NOTIFY_AND_MANUAL_RENEW: no notification is sent upon expiration, and the instance is not renewed automatically.
+	// Defaults to notify expiration without auto-renew.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	RenewFlag *string `json:"RenewFlag,omitnil,omitempty" name:"RenewFlag"`
 }
 
 type InstanceRelation struct {
@@ -6883,6 +7031,50 @@ type SpeedValue struct {
 	Value *uint64 `json:"Value,omitnil,omitempty" name:"Value"`
 }
 
+type StandardPackageConfig struct {
+	// Specifies the purchase region of the anti-ddos pro package.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	Region *string `json:"Region,omitnil,omitempty" name:"Region"`
+
+	// Specifies the number of protected ips.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	ProtectIpCount *uint64 `json:"ProtectIpCount,omitnil,omitempty" name:"ProtectIpCount"`
+
+	// Specifies the protection business bandwidth of 50Mbps.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	Bandwidth *uint64 `json:"Bandwidth,omitnil,omitempty" name:"Bandwidth"`
+
+	// Specifies whether elastic protection bandwidth is enabled. valid values: enabled. 
+	// The default is false. disable.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	ElasticBandwidthFlag *bool `json:"ElasticBandwidthFlag,omitnil,omitempty" name:"ElasticBandwidthFlag"`
+}
+
+type StandardPlusPackageConfig struct {
+	// Specifies the region of the anti-ddos pro package.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	Region *string `json:"Region,omitnil,omitempty" name:"Region"`
+
+	// Protection TIMES: TWO_TIMES: full protection twice. UNLIMITED: UNLIMITED protection.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	ProtectCount *string `json:"ProtectCount,omitnil,omitempty" name:"ProtectCount"`
+
+	// Specifies the number of protected ips.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	ProtectIpCount *uint64 `json:"ProtectIpCount,omitnil,omitempty" name:"ProtectIpCount"`
+
+	// Protection bandwidth is 50 Mbps.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	Bandwidth *uint64 `json:"Bandwidth,omitnil,omitempty" name:"Bandwidth"`
+
+	// Elastic scaling enabled for business bandwidth.
+	// true: enabled.
+	// Specifies whether the feature is disabled. valid values: false. 
+	// Disabled by default.
+	// Note: This field may return null, indicating that no valid values can be obtained.
+	ElasticBandwidthFlag *bool `json:"ElasticBandwidthFlag,omitnil,omitempty" name:"ElasticBandwidthFlag"`
+}
+
 type StaticPackRelation struct {
 	// Base protection bandwidth
 	// Note: This field may return `null`, indicating that no valid value can be obtained.
@@ -6990,10 +7182,10 @@ type TagFilter struct {
 }
 
 type TagInfo struct {
-	// Tag key
+	// Tag key.
 	TagKey *string `json:"TagKey,omitnil,omitempty" name:"TagKey"`
 
-	// Tag value
+	// Tag value.
 	TagValue *string `json:"TagValue,omitnil,omitempty" name:"TagValue"`
 }
 

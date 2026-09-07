@@ -377,7 +377,7 @@ type AddInstancesRequestParams struct {
 	// <p>Instance Machine Type. Supported values are as follows:</p><ul><li>common: indicates universal type</li><li>exclusive: indicates exclusive</li></ul>
 	DeviceType *string `json:"DeviceType,omitnil,omitempty" name:"DeviceType"`
 
-	// <p>Instance group ID, used when adding new instances to an existing RO group. If not passed, a new RO group will be created. The current version does not recommend transmitting this value.</p>
+	// <p>This field has been deprecated. The current version no longer transmits this value.</p>
 	//
 	// Deprecated: InstanceGrpId is deprecated.
 	InstanceGrpId *string `json:"InstanceGrpId,omitnil,omitempty" name:"InstanceGrpId"`
@@ -437,7 +437,7 @@ type AddInstancesRequest struct {
 	// <p>Instance Machine Type. Supported values are as follows:</p><ul><li>common: indicates universal type</li><li>exclusive: indicates exclusive</li></ul>
 	DeviceType *string `json:"DeviceType,omitnil,omitempty" name:"DeviceType"`
 
-	// <p>Instance group ID, used when adding new instances to an existing RO group. If not passed, a new RO group will be created. The current version does not recommend transmitting this value.</p>
+	// <p>This field has been deprecated. The current version no longer transmits this value.</p>
 	InstanceGrpId *string `json:"InstanceGrpId,omitnil,omitempty" name:"InstanceGrpId"`
 
 	// <p>ID of the associated VPC network.</p>
@@ -1157,6 +1157,9 @@ type BackupFileInfo struct {
 
 	// <p>Backup file remark</p>
 	BackupName *string `json:"BackupName,omitnil,omitempty" name:"BackupName"`
+
+	// <p>Region where backup files are located</p>
+	ExistRegions []*BackupRegionAndIds `json:"ExistRegions,omitnil,omitempty" name:"ExistRegions"`
 
 	// <p>Delivery status</p>
 	CopyStatus *string `json:"CopyStatus,omitnil,omitempty" name:"CopyStatus"`
@@ -4793,7 +4796,7 @@ type CynosdbInstance struct {
 	// <p>Primary availability zone of the cluster</p>
 	Zone *string `json:"Zone,omitnil,omitempty" name:"Zone"`
 
-	// <p>Instance status</p>
+	// <p>Instance status</p><p>Enumeration values:</p><ul><li>creating: Under creation</li><li>running: Running</li><li>isolating: Isolating</li><li>isolated: Isolated</li><li>activating: Restoring from recycle bin</li><li>offlining: Offlining</li><li>offlined: Offline</li><li>deleting: Deleting</li><li>deleted: Deleted</li></ul>
 	Status *string `json:"Status,omitnil,omitempty" name:"Status"`
 
 	// <p>Instance status description in Chinese</p>
@@ -5999,13 +6002,13 @@ type DescribeAccountPrivilegesRequestParams struct {
 	// Host
 	Host *string `json:"Host,omitnil,omitempty" name:"Host"`
 
-	// When the database name is “*”, the value specified in `Type` and `TableName` will be ignored, indicating that the user's global permissions are being modified.
+	// Database name. If it is `*`, Type/TableName are ignored, which means querying the user's global permission. If not passed, it defaults to `*`.
 	Db *string `json:"Db,omitnil,omitempty" name:"Db"`
 
-	// Object type in a specified database. Valid values: `table`, `*`.
+	// Specific object types under the designated database. Options: "table", "*". Defaults to * if not specified. TableName must be specified when Type is table.
 	Type *string `json:"Type,omitnil,omitempty" name:"Type"`
 
-	// The database name can be specified when `Type` is 'table'.
+	// When Type is "table", it is used to specify the table name. Required when Type is "table".
 	TableName *string `json:"TableName,omitnil,omitempty" name:"TableName"`
 }
 
@@ -6021,13 +6024,13 @@ type DescribeAccountPrivilegesRequest struct {
 	// Host
 	Host *string `json:"Host,omitnil,omitempty" name:"Host"`
 
-	// When the database name is “*”, the value specified in `Type` and `TableName` will be ignored, indicating that the user's global permissions are being modified.
+	// Database name. If it is `*`, Type/TableName are ignored, which means querying the user's global permission. If not passed, it defaults to `*`.
 	Db *string `json:"Db,omitnil,omitempty" name:"Db"`
 
-	// Object type in a specified database. Valid values: `table`, `*`.
+	// Specific object types under the designated database. Options: "table", "*". Defaults to * if not specified. TableName must be specified when Type is table.
 	Type *string `json:"Type,omitnil,omitempty" name:"Type"`
 
-	// The database name can be specified when `Type` is 'table'.
+	// When Type is "table", it is used to specify the table name. Required when Type is "table".
 	TableName *string `json:"TableName,omitnil,omitempty" name:"TableName"`
 }
 
@@ -7751,32 +7754,32 @@ func (r *DescribeClusterDatabasesResponse) FromJsonString(s string) error {
 
 // Predefined struct for user
 type DescribeClusterDetailDatabasesRequestParams struct {
-	// Cluster ID
+	// <p>Cluster ID.</p>
 	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
 
-	// Offset. Default value: `0`.
+	// <p>Offset. Default value: 0.</p>
 	Offset *int64 `json:"Offset,omitnil,omitempty" name:"Offset"`
 
-	// Number of returned results. Default value: `20`. Maximum value: `100`.
+	// <p>Number of returned results. Default: 20; maximum: 100</p>
 	Limit *int64 `json:"Limit,omitnil,omitempty" name:"Limit"`
 
-	// Database name
+	// <p>Database name. Perform substring match by this field.</p>
 	DbName *string `json:"DbName,omitnil,omitempty" name:"DbName"`
 }
 
 type DescribeClusterDetailDatabasesRequest struct {
 	*tchttp.BaseRequest
 	
-	// Cluster ID
+	// <p>Cluster ID.</p>
 	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
 
-	// Offset. Default value: `0`.
+	// <p>Offset. Default value: 0.</p>
 	Offset *int64 `json:"Offset,omitnil,omitempty" name:"Offset"`
 
-	// Number of returned results. Default value: `20`. Maximum value: `100`.
+	// <p>Number of returned results. Default: 20; maximum: 100</p>
 	Limit *int64 `json:"Limit,omitnil,omitempty" name:"Limit"`
 
-	// Database name
+	// <p>Database name. Perform substring match by this field.</p>
 	DbName *string `json:"DbName,omitnil,omitempty" name:"DbName"`
 }
 
@@ -7804,10 +7807,10 @@ func (r *DescribeClusterDetailDatabasesRequest) FromJsonString(s string) error {
 
 // Predefined struct for user
 type DescribeClusterDetailDatabasesResponseParams struct {
-	// Database information
+	// <p>Database information.</p>
 	DbInfos []*DbInfo `json:"DbInfos,omitnil,omitempty" name:"DbInfos"`
 
-	// The total count
+	// <p>Total.</p>
 	TotalCount *int64 `json:"TotalCount,omitnil,omitempty" name:"TotalCount"`
 
 	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
@@ -8209,6 +8212,72 @@ func (r *DescribeClusterReadOnlyResponse) ToJsonString() string {
 // FromJsonString It is highly **NOT** recommended to use this function
 // because it has no param check, nor strict type check
 func (r *DescribeClusterReadOnlyResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type DescribeClusterStorageAutoExpandRequestParams struct {
+	// <p>Cluster ID.</p>
+	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
+}
+
+type DescribeClusterStorageAutoExpandRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Cluster ID.</p>
+	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
+}
+
+func (r *DescribeClusterStorageAutoExpandRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DescribeClusterStorageAutoExpandRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "ClusterId")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "DescribeClusterStorageAutoExpandRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type DescribeClusterStorageAutoExpandResponseParams struct {
+	// <p>Storage utilization threshold</p>
+	StorageUsageThreshold *int64 `json:"StorageUsageThreshold,omitnil,omitempty" name:"StorageUsageThreshold"`
+
+	// <p>Scaling increment</p>
+	ExpandStep *int64 `json:"ExpandStep,omitnil,omitempty" name:"ExpandStep"`
+
+	// <p>Maximum storage capacity limit</p>
+	MaxStorageLimit *int64 `json:"MaxStorageLimit,omitnil,omitempty" name:"MaxStorageLimit"`
+
+	// <p>Whether to enable: yes-enabled, no-disabled</p>
+	StorageAutoExpand *string `json:"StorageAutoExpand,omitnil,omitempty" name:"StorageAutoExpand"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type DescribeClusterStorageAutoExpandResponse struct {
+	*tchttp.BaseResponse
+	Response *DescribeClusterStorageAutoExpandResponseParams `json:"Response"`
+}
+
+func (r *DescribeClusterStorageAutoExpandResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *DescribeClusterStorageAutoExpandResponse) FromJsonString(s string) error {
 	return json.Unmarshal([]byte(s), &r)
 }
 
@@ -9038,7 +9107,7 @@ type DescribeInstanceSpecsRequestParams struct {
 	// <p>Instance machine type.</p>
 	DeviceType *string `json:"DeviceType,omitnil,omitempty" name:"DeviceType"`
 
-	// <p>Cluster level, optional. For example P0, P1</p>
+	// <p>Cluster level. For example, P0, P1. If no availability zone is specified, the query for non-affinity resources will be downgraded for availability zones that do not support affinity.</p>
 	ClusterLevel *string `json:"ClusterLevel,omitnil,omitempty" name:"ClusterLevel"`
 }
 
@@ -9054,7 +9123,7 @@ type DescribeInstanceSpecsRequest struct {
 	// <p>Instance machine type.</p>
 	DeviceType *string `json:"DeviceType,omitnil,omitempty" name:"DeviceType"`
 
-	// <p>Cluster level, optional. For example P0, P1</p>
+	// <p>Cluster level. For example, P0, P1. If no availability zone is specified, the query for non-affinity resources will be downgraded for availability zones that do not support affinity.</p>
 	ClusterLevel *string `json:"ClusterLevel,omitnil,omitempty" name:"ClusterLevel"`
 }
 
@@ -16143,6 +16212,70 @@ func (r *ModifyClusterGlobalEncryptionResponse) FromJsonString(s string) error {
 }
 
 // Predefined struct for user
+type ModifyClusterLevelRequestParams struct {
+	// <p>Cluster ID.</p>
+	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
+
+	// <p>Cluster level</p>
+	ClusterLevel *string `json:"ClusterLevel,omitnil,omitempty" name:"ClusterLevel"`
+}
+
+type ModifyClusterLevelRequest struct {
+	*tchttp.BaseRequest
+	
+	// <p>Cluster ID.</p>
+	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
+
+	// <p>Cluster level</p>
+	ClusterLevel *string `json:"ClusterLevel,omitnil,omitempty" name:"ClusterLevel"`
+}
+
+func (r *ModifyClusterLevelRequest) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *ModifyClusterLevelRequest) FromJsonString(s string) error {
+	f := make(map[string]interface{})
+	if err := json.Unmarshal([]byte(s), &f); err != nil {
+		return err
+	}
+	delete(f, "ClusterId")
+	delete(f, "ClusterLevel")
+	if len(f) > 0 {
+		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "ModifyClusterLevelRequest has unknown keys!", "")
+	}
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
+type ModifyClusterLevelResponseParams struct {
+	// <p>Task ID.</p>
+	TaskId *int64 `json:"TaskId,omitnil,omitempty" name:"TaskId"`
+
+	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
+	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
+}
+
+type ModifyClusterLevelResponse struct {
+	*tchttp.BaseResponse
+	Response *ModifyClusterLevelResponseParams `json:"Response"`
+}
+
+func (r *ModifyClusterLevelResponse) ToJsonString() string {
+    b, _ := json.Marshal(r)
+    return string(b)
+}
+
+// FromJsonString It is highly **NOT** recommended to use this function
+// because it has no param check, nor strict type check
+func (r *ModifyClusterLevelResponse) FromJsonString(s string) error {
+	return json.Unmarshal([]byte(s), &r)
+}
+
+// Predefined struct for user
 type ModifyClusterNameRequestParams struct {
 	// Cluster ID
 	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
@@ -19451,6 +19584,10 @@ type Package struct {
 	// CCU: compute resource package. DISK: storage resource package.
 	PackageType *string `json:"PackageType,omitnil,omitempty" name:"PackageType"`
 
+	// Resource package edition
+	// base - basic, common - general, enterprise - business
+	PackageVersion *string `json:"PackageVersion,omitnil,omitempty" name:"PackageVersion"`
+
 	// Resource package region of use.
 	// China - common in the chinese mainland. overseas - universally applicable in hong kong (china), macao (china), taiwan (china), and overseas.
 	PackageRegion *string `json:"PackageRegion,omitnil,omitempty" name:"PackageRegion"`
@@ -22737,12 +22874,15 @@ type TradePrice struct {
 
 // Predefined struct for user
 type TransferClusterPrepayToPostpayRequestParams struct {
-
+	// <p>Cluster ID.</p>
+	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
 }
 
 type TransferClusterPrepayToPostpayRequest struct {
 	*tchttp.BaseRequest
 	
+	// <p>Cluster ID.</p>
+	ClusterId *string `json:"ClusterId,omitnil,omitempty" name:"ClusterId"`
 }
 
 func (r *TransferClusterPrepayToPostpayRequest) ToJsonString() string {
@@ -22757,7 +22897,7 @@ func (r *TransferClusterPrepayToPostpayRequest) FromJsonString(s string) error {
 	if err := json.Unmarshal([]byte(s), &f); err != nil {
 		return err
 	}
-	
+	delete(f, "ClusterId")
 	if len(f) > 0 {
 		return tcerr.NewTencentCloudSDKError("ClientError.BuildRequestError", "TransferClusterPrepayToPostpayRequest has unknown keys!", "")
 	}
@@ -22766,6 +22906,21 @@ func (r *TransferClusterPrepayToPostpayRequest) FromJsonString(s string) error {
 
 // Predefined struct for user
 type TransferClusterPrepayToPostpayResponseParams struct {
+	// <p>Prepaid Total Order Number</p>
+	BigDealIds []*string `json:"BigDealIds,omitnil,omitempty" name:"BigDealIds"`
+
+	// <p>Frozen transaction</p>
+	TranId *string `json:"TranId,omitnil,omitempty" name:"TranId"`
+
+	// <p>Order ID.</p>
+	DealNames []*string `json:"DealNames,omitnil,omitempty" name:"DealNames"`
+
+	// <p>Resource id</p>
+	ResourceIds []*string `json:"ResourceIds,omitnil,omitempty" name:"ResourceIds"`
+
+	// <p>Cluster ID.</p>
+	ClusterIds []*string `json:"ClusterIds,omitnil,omitempty" name:"ClusterIds"`
+
 	// The unique request ID, generated by the server, will be returned for every request (if the request fails to reach the server for other reasons, the request will not obtain a RequestId). RequestId is required for locating a problem.
 	RequestId *string `json:"RequestId,omitnil,omitempty" name:"RequestId"`
 }
